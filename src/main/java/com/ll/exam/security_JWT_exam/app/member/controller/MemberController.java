@@ -3,6 +3,7 @@ package com.ll.exam.security_JWT_exam.app.member.controller;
 import com.ll.exam.security_JWT_exam.app.base.dto.RsData;
 import com.ll.exam.security_JWT_exam.app.member.entity.Member;
 import com.ll.exam.security_JWT_exam.app.member.service.MemberService;
+import com.ll.exam.security_JWT_exam.app.security.entity.MemberContext;
 import com.ll.exam.security_JWT_exam.util.Util;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -10,11 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,6 +25,11 @@ public class MemberController {
 
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
+
+    @GetMapping("/test")
+    public String test(@AuthenticationPrincipal MemberContext memberContext) {
+        return "안녕" + memberContext;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<RsData> login(@RequestBody LoginDto loginDto) {
