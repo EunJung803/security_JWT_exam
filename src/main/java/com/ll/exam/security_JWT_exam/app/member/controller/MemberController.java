@@ -44,9 +44,9 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseEntity<RsData> login(@RequestBody LoginDto loginDto) {
-        if (loginDto.isNotValid()) {
-            return Util.spring.responseEntityOf(RsData.of("F-1", "로그인 정보가 올바르지 않습니다."));
-        }
+//        if (loginDto.isNotValid()) {
+//            return Util.spring.responseEntityOf(RsData.of("F-1", "로그인 정보가 올바르지 않습니다."));
+//        }
 
         Member member = memberService.findByUsername(loginDto.getUsername()).orElse(null);
 
