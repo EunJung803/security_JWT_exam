@@ -6,6 +6,7 @@ import com.ll.exam.security_JWT_exam.app.article.service.ArticleService;
 import com.ll.exam.security_JWT_exam.app.base.dto.RsData;
 import com.ll.exam.security_JWT_exam.app.security.entity.MemberContext;
 import com.ll.exam.security_JWT_exam.util.Util;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -58,7 +59,10 @@ public class ArticlesController {
 
     // 삭제
     @DeleteMapping("{id}")
-    public ResponseEntity<RsData> delete(@PathVariable Long id, @AuthenticationPrincipal MemberContext memberContext) {
+    public ResponseEntity<RsData> delete(
+            @PathVariable Long id,
+            @Parameter(hidden = true) @AuthenticationPrincipal MemberContext memberContext
+    ) {
         Article article = articleService.findById(id).orElse(null);
 
         if (article == null) {
