@@ -41,7 +41,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 //                Member member = memberService.findByUsername(username).orElseThrow(
 //                        () -> new UsernameNotFoundException("'%s' Username not found.".formatted(username))
 //                );
-                Member member = Member.fromJwtClaims(claims);
+
+//                Member member = Member.fromJwtClaims(claims);
+
+                // 추후에 캐시(레디스)를 통해서 성능 보완 가능
+                Member member = memberService.findByUsername((String) claims.get("username")).get();
+
 
                 forceAuthentication(member);
             }
