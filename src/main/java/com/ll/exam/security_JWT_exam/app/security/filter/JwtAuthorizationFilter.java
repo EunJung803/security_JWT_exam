@@ -43,6 +43,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 Map<String, Object> memberMap = memberService.getMemberMapByUsername__cached((String) claims.get("username"));
                 Member member = Member.fromMap(memberMap);
 
+                // 내부 호출을 막으려면 사용
+                /*
+                Member member = memberService.getByUsername__cached((String) claims.get("username"));
+                 */
+
                 // 2차 체크(화이트리스트에 포함되는지)
                 if ( memberService.verifyWithWhiteList(member, token) ) {
                     forceAuthentication(member);

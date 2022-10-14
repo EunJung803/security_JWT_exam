@@ -1,5 +1,6 @@
 package com.ll.exam.security_JWT_exam.app.member.service;
 
+import com.ll.exam.security_JWT_exam.app.AppConfig;
 import com.ll.exam.security_JWT_exam.app.member.entity.Member;
 import com.ll.exam.security_JWT_exam.app.member.repository.MemberRepository;
 import com.ll.exam.security_JWT_exam.app.security.jwt.JwtProvider;
@@ -51,6 +52,16 @@ public class MemberService {
     public boolean verifyWithWhiteList(Member member, String token) {
         return member.getAccessToken().equals(token);
     }
+
+    // 내부 호출을 막으려면 사용
+    /*
+    public Member getByUsername__cached(String username) {
+        MemberService thisObj = (MemberService) AppConfig.getContext().getBean("memberService");
+        Map<String, Object> memberMap = thisObj.getMemberMapByUsername__cached(username);
+
+        return Member.fromMap(memberMap);
+    }
+     */
 
     @Cacheable("member")
     public Map<String, Object> getMemberMapByUsername__cached(String username) {
