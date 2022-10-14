@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -52,7 +53,8 @@ public class MemberService {
     }
 
     @Cacheable("member")
-    public Member getByUsername__cached(String username) {
-        return findByUsername(username).orElse(null);
+    public Map<String, Object> getMemberMapByUsername__cached(String username) {
+        Member member = findByUsername(username).orElse(null);
+        return member.toMap();
     }
 }
