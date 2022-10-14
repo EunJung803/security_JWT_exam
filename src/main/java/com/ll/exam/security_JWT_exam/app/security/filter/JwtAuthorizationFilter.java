@@ -35,20 +35,17 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         if (bearerToken != null) {
             String token = bearerToken.substring("Bearer ".length());
 
+            // 1차 체크(정보가 변조되지 않았는지 체크)
             if (jwtProvider.verify(token)) {
                 Map<String, Object> claims = jwtProvider.getClaims(token);
-//                String username = (String) claims.get("username");
-//                Member member = memberService.findByUsername(username).orElseThrow(
-//                        () -> new UsernameNotFoundException("'%s' Username not found.".formatted(username))
-//                );
 
-//                Member member = Member.fromJwtClaims(claims);
-
-                // 추후에 캐시(레디스)를 통해서 성능 보완 가능
+                // 캐시(레디스)를 통해
                 Member member = memberService.findByUsername((String) claims.get("username")).get();
 
-
-                forceAuthentication(member);
+                // 2차 체크(화이트리스트에 포함되는지)
+                if ( memberService.verifyWithWhiteList(member, token) ) {
+                    forceAuthentication(member);
+                }
             }
         }
 
