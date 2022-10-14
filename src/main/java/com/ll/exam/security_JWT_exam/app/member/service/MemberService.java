@@ -4,6 +4,7 @@ import com.ll.exam.security_JWT_exam.app.member.entity.Member;
 import com.ll.exam.security_JWT_exam.app.member.repository.MemberRepository;
 import com.ll.exam.security_JWT_exam.app.security.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -46,5 +47,11 @@ public class MemberService {
 
     public boolean verifyWithWhiteList(Member member, String token) {
         return member.getAccessToken().equals(token);
+    }
+
+    @Cacheable("key1")
+    public int getCachedInt() {
+        System.out.println("getCachedInt 호출됨");
+        return 5;
     }
 }
